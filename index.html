@@ -467,7 +467,7 @@
           </div>
           <div class="row">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>
-            <div><div class="label">PHONE</div><div class="val">041-2643420 / 041-2619950 / 0321 86644922</div></div>
+            <div><div class="label">PHONE</div><div class="val">041-2643420 / 041-2619950 / 0321 8664492</div></div>
           </div>
           <div class="row">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -509,7 +509,7 @@
     <div class="section-head">
       <div class="eyebrow">GET IN TOUCH</div>
       <h2>Book your visit or ask a question.</h2>
-      <p>Send us a message and we'll get back to you, or call the shop directly during business hours.</p>
+      <p>Send us a message on WhatsApp and we'll get back to you, or call the shop directly during business hours.</p>
     </div>
     <div class="contact-grid">
       <form>
@@ -525,12 +525,16 @@
           <label for="msg">What do you need?</label>
           <textarea id="msg" rows="4" placeholder="Eye test, new frames, hearing aid consultation…"></textarea>
         </div>
-        <button type="submit">Send Message</button>
+        <button type="submit">Send on WhatsApp</button>
       </form>
       <div class="contact-info-list">
         <div class="ci-item">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg></div>
-          <div><h4>Call the shop</h4><p>041-2643420 / 041-2619950 / 0321 86644922</p></div>
+          <div><h4>Call the shop</h4><p>041-2643420 / 041-2619950</p></div>
+        </div>
+        <div class="ci-item">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M21 11.5a8.38 8.38 0 0 1-12.32 7.38L3 20l1.2-5.52A8.38 8.38 0 1 1 21 11.5Z"/><path d="M8.6 8.4c.2-.45.42-.46.62-.46h.52c.17 0 .4.06.6.3.2.24.78.76.78 1.84s-.8 2.14-.9 2.28c-.12.15-1.56 2.48-3.86 3.38-.54.22-.96.35-1.28.45-.54.17-1.04.15-1.43.09-.44-.07-1.35-.55-1.54-1.08-.2-.53-.2-.98-.14-1.08.06-.1.22-.16.46-.29.24-.12 1.35-.66 1.56-.74.2-.08.36-.12.52.12.15.24.6.74.74.9.14.16.28.18.52.06.24-.12 1-.37 1.9-1.18.7-.62 1.18-1.4 1.32-1.64.14-.24.02-.37-.1-.5-.12-.12-.24-.3-.36-.45-.12-.16-.16-.24-.24-.4-.08-.16-.04-.3.02-.42Z"/></svg></div>
+          <div><h4>WhatsApp</h4><p><a href="https://wa.me/923218664492" target="_blank" rel="noopener">+92 321 8664492</a></p></div>
         </div>
         <div class="ci-item">
           <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
@@ -569,9 +573,30 @@
     e.preventDefault();
     const btn = form.querySelector('button');
     const original = btn.textContent;
-    btn.textContent = 'Message noted — we\'ll call you back';
+    const name = form.querySelector('#name').value.trim();
+    const phone = form.querySelector('#phone').value.trim();
+    const details = form.querySelector('#msg').value.trim() || 'No extra details provided.';
+    const whatsappNumber = '923218664492';
+    const message = [
+      'New enquiry from the Soofi Sons & Co. website',
+      '',
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Message: ${details}`
+    ].join('\n');
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    btn.textContent = 'Opening WhatsApp...';
     btn.disabled = true;
-    setTimeout(() => { btn.textContent = original; btn.disabled = false; form.reset(); }, 2600);
+    const opened = window.open(whatsappUrl, '_blank', 'noopener');
+    if (!opened) {
+      window.location.href = whatsappUrl;
+    }
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.disabled = false;
+      form.reset();
+    }, 1200);
   });
 </script>
 
